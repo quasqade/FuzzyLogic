@@ -2,5 +2,5 @@
 struct FuzzyElement
 {
     double membership;
-    int value;
+    double value;
 };

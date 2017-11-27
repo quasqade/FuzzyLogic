@@ -3,7 +3,7 @@ COMPILER=g++
 #Compiler arguments
 CFLAGS=-c -g -Wall
 LDFLAGS=
-SOURCES=main.cpp
+SOURCES=main.cpp fuzzy_set.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=main
 

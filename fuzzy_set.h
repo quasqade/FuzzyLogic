@@ -1,27 +1,36 @@
 #pragma once
 #include "ifuzzy_set.h"
+#include "fuzzy_pair.h"
 #include <iostream>
-#include <typeinfo>
-using namespace std;
+using std::vector;
+using std::cout;
+using std::shared_ptr;
+
+//Перечисление типов арифметических операций
+enum Operation{SUM, SUBTRACT, MULTIPLY, DIVIDE};
+
+//Класс публично наследует интерфейс чтобы отделить интерфейс от реализации
 class FuzzySet : public IFuzzySet
 {
     public:
-        vector<FuzzyElement> getVector()
-        {
-            vector<FuzzyElement> vec(0);
-            return vec;
-        }
+        //Конструктор
+        FuzzySet();
 
-        shared_ptr<IFuzzySet> operator+(const IFuzzySet& right)
-        {
-            FuzzySet set = FuzzySet();
-            shared_ptr<IFuzzySet> ptr = make_shared<FuzzySet>();
-            cout << "created ptr of object type " << typeid(this).name() << std::endl;
-            return ptr;
-        }
+        //Конструктор копии
+        FuzzySet(const IFuzzySet& inputSet);
+
+        //перегрузки наследований
+        virtual vector<FuzzyElement> getVector() const override;
+        virtual void setVector(vector<FuzzyElement> inputVector) override;
+        virtual shared_ptr<IFuzzySet> operator+(const IFuzzySet& right) override;
+        virtual shared_ptr<IFuzzySet> operator-(const IFuzzySet& right) override;
+        virtual shared_ptr<IFuzzySet> operator*(const IFuzzySet& right) override;
+        virtual shared_ptr<IFuzzySet> operator/(const IFuzzySet& right) override;
+
+
+        static FuzzyPair make_pair(const FuzzyElement& a, const FuzzyElement& b, double result);
+    private:
+        vector<FuzzyElement> fuzzyVector;
         
-        void derivedFoo()
-        {
-            cout << "called derived function" << std::endl;
-        }
+        vector<FuzzyElement> getResultingVector(const IFuzzySet& right, Operation operation);
 };
